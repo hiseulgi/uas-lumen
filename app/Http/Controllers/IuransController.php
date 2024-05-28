@@ -85,9 +85,11 @@ class IuransController extends Controller
             return response()->json(['error' => 'Invalid year format'], 400);
         }
 
-        // Fetch warga data with related iuran filtered by year
+        // Fetch warga data with related iuran filtered by year and status pending
         $wargaData = Warga::with(['iurans' => function($query) use ($tahun) {
-            $query->whereYear('bulan', $tahun)->orderBy('bulan');
+            $query->whereYear('bulan', $tahun)
+                ->where('status', 'pending')
+                ->orderBy('bulan');
         }])->get();
 
         // Format the response data
