@@ -99,7 +99,7 @@ class IuransController extends Controller
                 return Carbon::parse($iuran->bulan)->format('Y-m');
             })->map(function ($group) {
                 return [
-                    'bulan' => $group->first()->bulan,
+                    'bulan' => Carbon::parse($group->first()->bulan)->format('Y-m'),
                     'jumlah_iuran' => $group->sum('jumlah_iuran'),
                 ];
             })->values()->sortBy('bulan')->values();
@@ -108,8 +108,8 @@ class IuransController extends Controller
                 'id' => $warga->id,
                 'nama' => $warga->nama,
                 'alamat' => $warga->alamat,
-                'total_iuran' => $warga->iurans->sum('jumlah_iuran'),
-                'detail_iuran' => $groupedIuran
+                'total_tunggakan' => $warga->iurans->sum('jumlah_iuran'),
+                'detail_tunggakan' => $groupedIuran
             ];
         });
 
